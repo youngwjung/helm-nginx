@@ -33,11 +33,11 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v2
     - name: Package
       uses: WyriHaximus/github-action-helm3@v3
-      working-directory: ./chart
       with:
+        working-directory: ./chart
         exec: helm package .
     - name: Push
       uses: WyriHaximus/github-action-helm3@v3
-      working-directory: ./chart
       with:
+        working-directory: ./chart
         exec: helm push nginx-${{steps.tag.outputs.tag}}.tgz oci://${{ env.AWS_ACCOUNT }}.dkr.ecr.ap-northeast-2.amazonaws.com/helm
