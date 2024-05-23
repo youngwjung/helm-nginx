@@ -8,6 +8,10 @@ on:
 env:
   AWS_ACCOUNT: 491818659652
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
