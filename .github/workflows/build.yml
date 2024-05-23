@@ -34,10 +34,8 @@ jobs:
     - name: Package
       uses: WyriHaximus/github-action-helm3@v3
       with:
-        working-directory: ./chart
-        exec: helm package .
+        exec: helm package chart/
     - name: Push
       uses: WyriHaximus/github-action-helm3@v3
       with:
-        working-directory: ./chart
         exec: helm push nginx-${{steps.tag.outputs.tag}}.tgz oci://${{ env.AWS_ACCOUNT }}.dkr.ecr.ap-northeast-2.amazonaws.com/helm
