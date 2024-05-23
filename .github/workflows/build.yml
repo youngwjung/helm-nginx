@@ -1,0 +1,37 @@
+name: build
+
+on:
+  push:
+    tags:        
+    - '*'
+    
+env:
+  AWS_ACCOUNT: 491818659652
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Get tag
+      id: tag
+      uses: dawidd6/action-get-tag@v1
+      with:
+        strip_v: true
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: "arn:aws:iam::${{ env.AWS_ACCOUNT }}:role/GitHubActionRole"
+        aws-region: ap-northeast-2
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+    - name: Package
+      uses: WyriHaximus/github-action-helm3@v3
+      with:
+        exec: helm package .
+    - name: Push
+      uses: WyriHaximus/github-action-helm3@v3
+      with:
+        exec: helm push nginx-${{steps.tag.outputs.tag}}.tgz oci://${{ env.AWS_ACCOUNT }}.dkr.ecr.ap-northeast-2.amazonaws.com/
