@@ -1,1 +1,9 @@
-replicaCount: 3
+replicaCount: 2
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+  - host: nginx.dev.ezl.youngwjung.com
+    paths:
+    - path: /
+      pathType: Prefix

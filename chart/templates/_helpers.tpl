@@ -48,7 +48,6 @@ Selector labels
 {{- define "nginx.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "nginx.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-role: api-server
 {{- end }}
 
 {{/*
